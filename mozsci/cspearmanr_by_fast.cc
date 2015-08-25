@@ -5,6 +5,16 @@
 #include <math.h>
 #include <algorithm>
 
+// In Microsoft Visual C++ Compiler Package for Python 2.7,
+// std::isnan is undefined.
+// We need to use _isnan function in float.h instead of isnan function in math.h.
+#ifdef _MSC_VER < 1700 // before Visual C++ 12.0 (Visual Studio 2012)
+#include <float.h>
+static int isnan(double x) {
+	return _isnan(x);
+}
+#endif
+
 template <class iter_t>
 struct indexed_compare
 {
